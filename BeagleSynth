@@ -24,3 +24,24 @@ http://www.comp.nus.edu.sg/~yzhou86/mmde976-zhou.pdf
 
 - Features (Muy completo)
 http://code.google.com/p/beagle-synth/wiki/Features
+
+--
+Día 1 (Septiembre 16)
+Requerimientos del BeagleSynth:
+
+titulo del proyecto -> "Interfaces para sintesis de audio"+"Hardware de procesamiento de audio"
+  Que es sintesis de audio?
+  
+
+  Herramientas para sintesis de audio?
+  - Chuck > Es posible portarlo a ARM. 
+  ChucK is a new (and developing) audio programming language for real-time synthesis, composition, performance, and now, analysis 
+  Alguien esta compilando chuck para la Beagleboard -> Edgar Berdahl (eberdahl@ccrma.stanford.edu)
+
+  - STK > Muy completo, compilar codigo
+
+
+Seleccionando el toolchain:
+Las opciones que tengo son CodeSourcery, el de OE, Scratchbox
+
+--
