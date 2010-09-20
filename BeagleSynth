@@ -26,20 +26,33 @@ http://www.comp.nus.edu.sg/~yzhou86/mmde976-zhou.pdf
 http://code.google.com/p/beagle-synth/wiki/Features
 
 --
-Día 1 (Septiembre 16)
 Requerimientos del BeagleSynth:
 
-titulo del proyecto -> "Interfaces para sintesis de audio"+"Hardware de procesamiento de audio"
-  Que es sintesis de audio?
-  
+- Titulo del proyecto > "Interfaces para sintesis de audio"+"Hardware de procesamiento de audio"
+  - Que es sintesis de audio?
+    http://www.ccapitalia.net/reso/articulos/audiodigital/index.htm >
+    SynCookbook.pdf > en ./docs
+    Synthesizer Basics.pdf > en ./docs
 
-  Herramientas para sintesis de audio?
+  - Tipos de sintetizadores
+    - Sampler
+    - Tracker
+
+- Herramientas para sintesis de audio?
   - Chuck > Es posible portarlo a ARM. 
-  ChucK is a new (and developing) audio programming language for real-time synthesis, composition, performance, and now, analysis 
-  Alguien esta compilando chuck para la Beagleboard -> Edgar Berdahl (eberdahl@ccrma.stanford.edu)
+    ChucK is a new (and developing) audio programming language for real-time synthesis, composition, performance, and now, analysis 
+    Alguien esta compilando chuck para la Beagleboard -> Edgar Berdahl (eberdahl@ccrma.stanford.edu)
+    Existe un port para debian arm -> http://packages.debian.org/unstable/sound/chuck
+    Ando buscando uno para ubuntu-arm pero no aparece. https://launchpad.net/ubuntu/+source/armel-cross-toolchain-base, https://launchpad.net/ubuntu/+source/gcc-4.5-armel-cross
 
   - STK > Muy completo, compilar codigo
-
+    
+  - BEADS / ANDROID > 
+    http://d.android.com/guide/topics/media/index.html
+    http://www.beadsproject.net/
+    
+  - JS / HTML5 audio api > http://jonbro.tk/
+  
 
 Seleccionando el toolchain:
 Las opciones que tengo son CodeSourcery, el de OE, Scratchbox
