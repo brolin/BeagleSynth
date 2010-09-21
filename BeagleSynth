@@ -33,13 +33,17 @@ Requerimientos del BeagleSynth:
     http://www.ccapitalia.net/reso/articulos/audiodigital/index.htm >
     SynCookbook.pdf > en ./docs
     Synthesizer Basics.pdf > en ./docs
+    
+  - Primitivas de los sintetizadores >
+    - Envolventes > Es una curva que determina la evolucion temporal de la amplitud
+    - Modulacion de amplitud > Consiste en multiplicar el fragmento de audio por una senal periodica
 
   - Tipos de sintetizadores
     - Sampler
     - Tracker
 
 - Herramientas para sintesis de audio?
-  - Chuck > Es posible portarlo a ARM. 
+  - Chuck (Sintesis, procesamiento y analisis) > Es posible portarlo a ARM. 
     ChucK is a new (and developing) audio programming language for real-time synthesis, composition, performance, and now, analysis 
     Alguien esta compilando chuck para la Beagleboard -> Edgar Berdahl (eberdahl@ccrma.stanford.edu)
     Existe un port para debian arm -> http://packages.debian.org/unstable/sound/chuck
@@ -51,7 +55,10 @@ Requerimientos del BeagleSynth:
     http://d.android.com/guide/topics/media/index.html
     http://www.beadsproject.net/
     
-  - JS / HTML5 audio api > http://jonbro.tk/
+  - JS / HTML5 audio api > 
+    http://jonbro.tk/
+    http://beadsjs.chrismorgan.info/
+    http://chromium.googlecode.com/svn/trunk/samples/audio/index.html
   
 
 Seleccionando el toolchain:
