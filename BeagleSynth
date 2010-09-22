@@ -1,11 +1,80 @@
+
+Requerimientos del BeagleSynth:
+
+- Titulo del proyecto > "Interfaces para sintesis de audio"+"Hardware de procesamiento de audio"
+  - Audio Backend
+  - Que es sintesis de audio?
+    - Sintetizador > http://en.wikipedia.org/wiki/Synthesizer / http://upload.wikimedia.org/wikipedia/commons/8/86/Synthesizer.components.01.png 
+      Instrumento de musica electronica que usa filtros y generadores de tono para crear formas de onda las cuales son procesadas para generar sonido
+    
+    - Sergi Jorda > audio digital
+      http://www.ccapitalia.net/reso/articulos/audiodigital/index.htm >
+    
+    - SynCookbook.pdf > en ./docs
+    - Synthesizer Basics.pdf > en ./docs
+    
+  - Primitivas de los sintetizadores / Building Blocks >
+    - Envolventes > Es una curva que determina la evolucion temporal de la amplitud
+    - Modulacion de amplitud > Consiste en multiplicar el fragmento de audio por una senal periodica
+
+  - Tipos de sintetizadores
+    - Sampler
+    - Tracker
+    - Sequencer > All notes played are recorded on the timeline and played back on all future iterations of the loop unless the timeline is cleared.
+
+- Herramientas para sintesis de audio?
+  - Chuck (Sintesis, procesamiento y analisis) > Es posible portarlo a ARM. 
+    ChucK is a new (and developing) audio programming language for real-time synthesis, composition, performance, and now, analysis 
+    Alguien esta compilando chuck para la Beagleboard -> Edgar Berdahl (eberdahl@ccrma.stanford.edu)
+    Existe un port para debian arm -> http://packages.debian.org/unstable/sound/chuck
+    Ando buscando uno para ubuntu-arm pero no aparece. https://launchpad.net/ubuntu/+source/armel-cross-toolchain-base, https://launchpad.net/ubuntu/+source/gcc-4.5-armel-cross
+
+  - STK > Muy completo, compilar codigo
+    
+  - BEADS / ANDROID > 
+    http://d.android.com/guide/topics/media/index.html
+    http://www.beadsproject.net/
+    
+  - JS / HTML5 audio api > 
+    http://jonbro.tk/
+    http://beadsjs.chrismorgan.info/
+    http://chromium.googlecode.com/svn/trunk/samples/audio/index.html
+
+  - PDLIB > Iphone related / Como devolvernos a portaudio???
+    http://bsumm.net/projects/pdlib.html
+    Port de Pd para el iphone
+    "As it stands, Pure Data wasn't really written to be embedded in other systems, and was dependent on PortAudio, which wasn't compatible with the 
+    iPhone's audio system. I ended up basically rewriting the audio hardware interface layer of Pure Data to use the iPhone's RemoteIO Audio unit. Apple's
+    documentation for that system is sparse, so I found articles by Mike Tyson(http://atastypixel.com/blog/2008/11/04/using-remoteio-audio-unit/) and 
+    Chris Adamson(http://www.subfurther.com/blog/?p=507) to be invaluable."
+  
+  - ZenGarden > via RJDJ
+    http://github.com/mhroth/ZenGarden
+    "Zen Garden is an implementation of the Pure Data application programming interface. It is designed as an audio library, making it easy to plug into
+     any audio software, either as the primary audio engine or as a plugin. It is built from the ground up in portable C++ using modern software design 
+     principles, making it easily extensible and available for use on most modern platforms, including mobile systems such as iPhone and Android. 
+     ZenGarden is open source under the LGPL."
+
+  
+  - NOTAS >
+    - LibPD o ZenGarden > LibPD esta disenada para iphone pero segun parece la magia la hace una clase llamada PdController escrita en Objective-C
+    - Discusion creo que de la gente de libpd y zengarden > http://thread.gmane.org/gmane.comp.multimedia.puredata.devel/8853 (End of iPd hiatus)
+    - http://thread.gmane.org/gmane.comp.multimedia.puredata.general/69002 http://thread.gmane.org/gmane.comp.multimedia.puredata.general/69044
+      http://thread.gmane.org/gmane.comp.multimedia.puredata.general/69045 
+
+
+
+- Seleccionando el toolchain >
+  Las opciones que tengo son CodeSourcery, el de OE, Scratchbox
+
+
+------------------------------------------ UNSORTED -----------------------------------------------------
 - Searching sound engines:
 http://gentoo-overlays.zugaina.org/pro-audio/media-libs.html.en
 	http://beast.gtk.org/about
 
-
 - Sequencers:
 http://www.openframeworks.cc/forum/viewtopic.php?f=12&t=4545
-
 
 - Audio Libs:
 STK
@@ -25,43 +94,4 @@ http://www.comp.nus.edu.sg/~yzhou86/mmde976-zhou.pdf
 - Features (Muy completo)
 http://code.google.com/p/beagle-synth/wiki/Features
 
---
-Requerimientos del BeagleSynth:
-
-- Titulo del proyecto > "Interfaces para sintesis de audio"+"Hardware de procesamiento de audio"
-  - Que es sintesis de audio?
-    http://www.ccapitalia.net/reso/articulos/audiodigital/index.htm >
-    SynCookbook.pdf > en ./docs
-    Synthesizer Basics.pdf > en ./docs
-    
-  - Primitivas de los sintetizadores >
-    - Envolventes > Es una curva que determina la evolucion temporal de la amplitud
-    - Modulacion de amplitud > Consiste en multiplicar el fragmento de audio por una senal periodica
-
-  - Tipos de sintetizadores
-    - Sampler
-    - Tracker
-
-- Herramientas para sintesis de audio?
-  - Chuck (Sintesis, procesamiento y analisis) > Es posible portarlo a ARM. 
-    ChucK is a new (and developing) audio programming language for real-time synthesis, composition, performance, and now, analysis 
-    Alguien esta compilando chuck para la Beagleboard -> Edgar Berdahl (eberdahl@ccrma.stanford.edu)
-    Existe un port para debian arm -> http://packages.debian.org/unstable/sound/chuck
-    Ando buscando uno para ubuntu-arm pero no aparece. https://launchpad.net/ubuntu/+source/armel-cross-toolchain-base, https://launchpad.net/ubuntu/+source/gcc-4.5-armel-cross
-
-  - STK > Muy completo, compilar codigo
-    
-  - BEADS / ANDROID > 
-    http://d.android.com/guide/topics/media/index.html
-    http://www.beadsproject.net/
-    
-  - JS / HTML5 audio api > 
-    http://jonbro.tk/
-    http://beadsjs.chrismorgan.info/
-    http://chromium.googlecode.com/svn/trunk/samples/audio/index.html
-  
-
-Seleccionando el toolchain:
-Las opciones que tengo son CodeSourcery, el de OE, Scratchbox
-
---
+------------------------------------------ /UNSORTED -----------------------------------------------------
