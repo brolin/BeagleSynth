@@ -54,6 +54,7 @@ Requerimientos del BeagleSynth:
      any audio software, either as the primary audio engine or as a plugin. It is built from the ground up in portable C++ using modern software design 
      principles, making it easily extensible and available for use on most modern platforms, including mobile systems such as iPhone and Android. 
      ZenGarden is open source under the LGPL."
+     - Running on the BB - http://groups.google.com/group/zengarden/browse_thread/thread/9730c2561c1d1207
 
   
   - NOTAS >
