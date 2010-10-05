@@ -55,18 +55,48 @@ Requerimientos del BeagleSynth:
      principles, making it easily extensible and available for use on most modern platforms, including mobile systems such as iPhone and Android. 
      ZenGarden is open source under the LGPL."
      - Running on the BB - http://groups.google.com/group/zengarden/browse_thread/thread/9730c2561c1d1207
+     - RjDuino -- http://mhdixon.googlepages.com/RjDuino.zip (Es compatible con ZenGarden??)
 
-  
+  - Gstreamer (Trabajaria directamente sobre el DSP del Omap) >
+    - Mirar ejemplo en este link - http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-plugins/html/gst-plugins-base-plugins-audiotestsrc.html
+       
   - NOTAS >
     - LibPD o ZenGarden > LibPD esta disenada para iphone pero segun parece la magia la hace una clase llamada PdController escrita en Objective-C
     - Discusion creo que de la gente de libpd y zengarden > http://thread.gmane.org/gmane.comp.multimedia.puredata.devel/8853 (End of iPd hiatus)
     - http://thread.gmane.org/gmane.comp.multimedia.puredata.general/69002 http://thread.gmane.org/gmane.comp.multimedia.puredata.general/69044
       http://thread.gmane.org/gmane.comp.multimedia.puredata.general/69045 
 
+- Seleccionamos como soundEngine ZenGarden >
+  Para poner a funcionarlos se necesita hacer el build del sistema operativo. 
+  - Con Narcissus se ha demorado mucho, parece que no esta funcionando bien.
+  - Ahora estoy probando con Angstrom/OE (http://gitorious.org/angstrom/angstrom-setup-scripts) -- Ha sacado mucho errores
+    $./oebb.sh config beagleboard
+    $./oebb.sh update
+    $. ~/.oe/environment
+    $bitbake -k xfce46-image
+    
+    NOTA: Muchos errores, solucioné uno referente a un recipe que siempre sacaba error cuando reiniciaba el bitbake con la opción de cache. Borrando los
+    stamps del recipe ubicados en /build/tmp-angstrom_2008_1/stamps
+    
+    Despues de mucho tiempo por fin se construyó la imagen. Queda ubicada en build/tmp-angstrom_2008_1/deploy/glibc/images/beagleboard
+    
+  - Para darle soporte de las pantallas ubs al sistema operativo se construyeron los paquetes kernel-module-udlfb y xf86-video-displaylink mediante
+    bitbake así:
+    $bitbake kernel-module-udlfb
+    $bitbake xf86-video-displaylink
 
+    los paquetes .ipk quedan ubicados en build/tmp-angstrom_2008_1/deploy/glibc/ipk/beagleboard/
+    
+  
 
 - Seleccionando el toolchain >
   Las opciones que tengo son CodeSourcery, el de OE, Scratchbox
+
+- O.S Build
+  - RootStock >
+  The RootStock project aims to create a command line and graphical set of tools to create a fully configured tarball or VM image of an Ubuntu rootfs from
+  scratch so that you can extract it to a root device on e.g. armel systems. (this project was formerly known as build-arm-rootfs and could be found at
+  https://wiki.ubuntu.com/ARM/RootfsFromScratch)
 
 
 ------------------------------------------ UNSORTED -----------------------------------------------------
