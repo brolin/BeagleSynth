@@ -85,21 +85,42 @@ Requerimientos del BeagleSynth:
     $bitbake kernel-module-udlfb
     $bitbake xf86-video-displaylink
 
-    los paquetes .ipk quedan ubicados en build/tmp-angstrom_2008_1/deploy/glibc/ipk/beagleboard/
+    los paquetes .ipk quedan ubicados en build/tmp-angstrom_2008_1/deploy/glibc/ipk/beagleboard/ y build/tmp-angstrom_2008_1/deploy/glibc/ipk/armv7a/
+    respectivamente.
+
+    Después de instalarlos hay que modificar el archivo /etc/X11/xorg.conf, la configuración es la siguiente
+
+    Section "Device"
+        Identifier      "dl0"
+        driver          "displaylink"
+        Option  "fbdev" "/dev/fb0"
+    EndSection
+
+    Section "Monitor"
+        Identifier "monitor0"
+    EndSection
+
+    Section "Screen"
+        Identifier "screen0"
+        Device "dl0"
+        Monitor "monitor0"
+    EndSection
+
     
-  
+    
 
 - Seleccionando el toolchain >
   Las opciones que tengo son CodeSourcery, el de OE, Scratchbox
 
+
+
+------------------------------------------ UNSORTED -----------------------------------------------------
 - O.S Build
   - RootStock >
   The RootStock project aims to create a command line and graphical set of tools to create a fully configured tarball or VM image of an Ubuntu rootfs from
   scratch so that you can extract it to a root device on e.g. armel systems. (this project was formerly known as build-arm-rootfs and could be found at
   https://wiki.ubuntu.com/ARM/RootfsFromScratch)
 
-
------------------------------------------- UNSORTED -----------------------------------------------------
 - Searching sound engines:
 http://gentoo-overlays.zugaina.org/pro-audio/media-libs.html.en
 	http://beast.gtk.org/about
