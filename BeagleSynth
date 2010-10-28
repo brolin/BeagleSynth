@@ -106,12 +106,37 @@ Requerimientos del BeagleSynth:
         Monitor "monitor0"
     EndSection
 
-    
-    
-
 - Seleccionando el toolchain >
   Las opciones que tengo son CodeSourcery, el de OE, Scratchbox
 
+  Mediante Angstrom-OE y siguiendo las indicaciones del sitio http://www.angstrom-distribution.org/toolchains/ se creó el Toolchain con soporte para 
+  desarrollar QT-Embedded. 
+
+  NOTA: Realmente no se como usarlo, obtengo dos archivos .tar.gz2 uno con una jerarquía de directorios y otro lleno de extras (paquete .ipkg para instalar)
+  
+- Proceso compilación ZenGarden para x86 (Ubuntu 10.04)
+
+   Software del que depende:
+   sudo aptitude install python-pygame python-ctypes openjdk-6-jdk libsndfile1-dev
+
+   Bajo ZenGarden desde github.
+   git clone http://github.com/mhroth/ZenGarden.git
+
+   Entro a la carpeta de ZenGarden, luego voy a src/ y ejecuto make java-jar para probar el ejemplo de java. Sacaba un error relativo a jni.h, le agregue el
+   path donde se encuentra ubicado el archivo en mi sistema (/usr/lib/jvm/java-6-openjdk/include) al archivo Mafile.OS.Linux-i686 en:
+   MAKE_SO=$(CC) -o $(1) $(CXXFLAGS) -shared $(2) $(3) $(SNDFILE_LIB) -lstdc++ -I/usr/lib/jvm/java-6-openjdk/include/
+
+   NOTA: Usando el ejemplo de java no me suena. Espero respuesta de la lista
+
+  CONCLUSION:: ZenGarden no produce sonido, solo procesa los patches de pd. Se necesita una librería de audio externa para generar sonido. Java sound 
+  engine, portaudio, rtaudio, pygame.
+
+- Pruebas con portaudio:
+
+   Marek Bereza - Clave seguir su trabajo. 
+   	 http://groups.google.com/group/zengarden/browse_thread/thread/9730c2561c1d1207/f20ef3eab4202e1e?lnk=gst&q=beagleboard#f20ef3eab4202e1e
+   	 http://work.mrkbrz.com/node/33
+    
 
 
 ------------------------------------------ UNSORTED -----------------------------------------------------
