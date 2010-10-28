@@ -1,0 +1,23 @@
+Makefile.portaudio 
+--------------------------------------------------------------------------- ------------------------- 
+include Makefile.sourcefiles 
+OBJS := $(foreach FILE,$(LOCAL_SRC_FILES),$(FILE:.cpp=.o)) 
+# put here where your portaudio installation is. 
+PORTAUDIO_INCLUDE = -I../../portaudio/include 
+PORTAUDIO_LIB = ../../portaudio/lib/.libs/libportaudio.a 
+# for beagleboard, just change PORTAUDIO_LIB to -lportaudio 
+CXXFLAGS = -g -O3 -fPIC -c -Wall $(PORTAUDIO_INCLUDE) 
+LIBS = -framework CoreAudio -framework AudioToolbox -framework 
+AudioUnit -framework Carbon 
+# for beagleboard, just remove everything after the equals on the line 
+above 
+clean: 
+        rm -rf  *.o *.a 
+libzengarden.a: $(OBJS) 
+        ar rcs $@ $(OBJS) 
+.cpp.o: 
+        g++ $(CXXFLAGS) $< -o $@ 
+all: libzengarden.a 
+        g++ portaudioExample.cpp $(PORTAUDIO_INCLUDE) -c 
+        g++ $(PORTAUDIO_LIB) portaudioExample.o libzengarden.a -o 
+portaudioExample $(LIBS) 

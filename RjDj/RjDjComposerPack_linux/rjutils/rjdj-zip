@@ -1,0 +1,36 @@
+#! /usr/bin/python
+
+import sys
+import os.path
+import Image
+
+usage = sys.argv[0] + " Directory.rj ..."
+usage += '\n' + 'create a rjz file from a directory'
+
+thumb_size = 55, 55
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print usage
+    for directory in sys.argv[1:]:
+        # check if this is a directory
+        if not os.path.isdir(directory):
+            print "ERROR: ignoring", directory, "(not a directory)"
+            continue
+        # strip trailing slash from directory
+        if directory[-1] == os.sep: directory = directory[:-1]
+        # check if we have a main patch
+        if not os.path.isfile(os.path.join(directory,'_main.pd')):
+            print "ERROR: ignoring", directory, "(no _main.pd file)"
+            continue
+        # check if we have an image 
+        if not os.path.isfile(os.path.join(directory,'image.jpg')):
+            print "ERROR: ignoring", directory, "(no image file)"
+            continue
+        # create thumbnail
+        im = Image.open(os.path.join(directory,'image.jpg'))
+        im.thumbnail(thumb_size, Image.ANTIALIAS)
+        im.save(os.path.join(directory,'thumb.jpg'))
+        # create zipfile
+        fd = os.popen("zip -r " + directory + "z " + directory + " -x \*.svn\*")
+        fd.close()

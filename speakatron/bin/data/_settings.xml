@@ -1,0 +1,38 @@
+<controls>
+    <SliderFloat_widthCrop>
+        <name>widthCrop</name>
+        <value>0.200000</value>
+    </SliderFloat_widthCrop>
+    <SliderFloat_heightStart>
+        <name>heightStart</name>
+        <value>0.595000</value>
+    </SliderFloat_heightStart>
+    <SliderFloat_heightEnd>
+        <name>heightEnd</name>
+        <value>0.975000</value>
+    </SliderFloat_heightEnd>
+    <SliderInt_threshold>
+        <name>threshold</name>
+        <value>3</value>
+    </SliderInt_threshold>
+    <SliderInt_minSize>
+        <name>minSize</name>
+        <value>6</value>
+    </SliderInt_minSize>
+    <Button_rewind>
+        <name>rewind</name>
+        <value>0</value>
+    </Button_rewind>
+    <Button_pause>
+        <name>pause</name>
+        <value>0</value>
+    </Button_pause>
+    <Button_play>
+        <name>play</name>
+        <value>0</value>
+    </Button_play>
+    <Toggle_Use_Camera>
+        <name>Use Camera</name>
+        <value>1</value>
+    </Toggle_Use_Camera>
+</controls>
