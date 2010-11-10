@@ -138,6 +138,25 @@ Requerimientos del BeagleSynth:
    	 http://work.mrkbrz.com/node/33
     
 
+- Notas Maximilian
+
+Con esta linea compila maximillian: g++ -Wall -D__LINUX_ALSA__ main.cpp RtAudio.cpp maximilian.cpp -lasound -lpthread
+
+Falta a la libreria: Delays, Arrays (Poder grabar un pedacito de una onda en cierto momento), FFT
+
+Necesitamos cross compilar alsa-lib: alsa-lib (occasionally a.k.a. libasound) is a userspace library that provides a level of abstraction over the /dev interfaces provided by the kernel modules. For a more detailed overview of ALSA and how alsa-lib fits into the picture, see AlsaTips. )
+
+Compilando Alsa-lib: Con el siguiente compilo, pero me toco deshabilitar el mixer porque salia un error(python ...)
+CC=arm-linux-gcc ./configure --target=arm-linux --host=i686 --disable-mixer --prefix=/mnt
+
+Compila bien, pero una vez en la BB no logro compilar maximillian, no encuentra el header <alsa/asoundlib.h> aunque esta en el sistema de archivos. Tambien parece que compila de manera estatica (.a) no se si esto este afectando
+
+AHORA COMO LO INSTALO, en la jerarquia de directorios del angstrom en la SD
+
+AISLADAS:
+El repositorio de paquetes de openembedded -> http://www.angstrom-distribution.org/repo
+
+Online Image builder de openembedded -> http://www.angstrom-distribution.org/narcissus/#final
 
 ------------------------------------------ UNSORTED -----------------------------------------------------
 - O.S Build
