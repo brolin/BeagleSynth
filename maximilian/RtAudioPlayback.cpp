@@ -13,6 +13,19 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
   if ( status )
     std::cout << "Stream underflow detected!" << std::endl;
 
+  /* Callback de Marek */
+  /* Cast data passed through stream to our structure. */ 
+  PdGraph *g = (PdGraph*)userData; 
+  float *out = (float*)outputBuffer; 
+  g->process(input, output); 
+  for(int i = 0; i < BLOCK_SIZE; i++) { 
+    for(int channel = 0; channel < NUM_OUTPUTS; channel++) { 
+      out[i*NUM_OUTPUTS + channel] = output[i + channel*BLOCK_SIZE]; 
+    } 
+  } 
+  return 0; 
+
+  /*
   /*  // Write interleaved audio data.
   for ( i=0; i<nBufferFrames; i++ ) {
     for ( j=0; j<2; j++ ) {
@@ -22,7 +35,7 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
       if ( lastValues[j] >= 1.0 ) lastValues[j] -= 2.0;
     }
   }
-  */
+  
   // Write non interleaved audio data
   for ( i=0; i<nBufferFrames; i++) {
     *buffer++ = lastValues[i];
@@ -32,6 +45,7 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     if ( lastValues[i] >= 1.0 ) lastValues[i] -= 2.0;
   }
   return 0;
+  */
 }
 
 int main()

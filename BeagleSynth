@@ -158,6 +158,94 @@ El repositorio de paquetes de openembedded -> http://www.angstrom-distribution.o
 
 Online Image builder de openembedded -> http://www.angstrom-distribution.org/narcissus/#final
 
+> INSTALANDO CROSS-QT PARA LA BEAGLEBOARD
+  - http://treyweaver.blogspot.com/2010/10/setting-up-qt-development-environment.html
+
+> INSTALANDO UBUNTU PARA CORRER PD DEL REPOSITORIO
+  - Seguimos esto http://elinux.org/BeagleBoardUbuntu#Lucid_10.04.1
+  - Ayuda de Robert Nelson en el canal de beagle
+  19:36 < brolin> hello, I followed the instructions in the page ubuntubeagleboard from elinux. But after power my BBoard 
+  	  	  the system don't boot. Someone has any idea of what happen there?
+  19:37 < brolin> i used the ./setup_sdcard.sh
+  19:55 < Jefro> hi brolin
+  19:56 < Jefro> I was also not able to get my xM working using setup_sdcard.sh.  There are two methods I recommend. One is 
+               for setting up a development environment, if e.g. you want to create new drivers etc.  For that, use the 
+               rootstock method described on that page. 
+  19:57 < Jefro> If you just want to get Ubuntu running on your board, I highly recommend rsalveti's pre-installed images 
+               (link shortly)
+  19:58 < Jefro> https://wiki.ubuntu.com/ARM/OMAPMaverickInstall
+  20:02 < rcn-ee> brolin, by not booting, what is the output on the serial port?
+  20:14 < brolin> Jefro: thanks, i gonna see the link
+  20:15 < brolin> rcn-ee: when don't push the user buttom, don't pass of I2C verification
+  20:15 < brolin> rcn-ee: with the user buttom pressed, go until "android_usb gadget: high speed config #1: android"
+  20:16 < brolin> rcn-ee: if i press enter, i get a little console
+  20:16 < rcn-ee> brolin, that's a little weird.. which I2C verification test..
+  20:18 < brolin> rcn-ee: look http://pastebin.com/NLFvW5PR
+  20:20 < rcn-ee> brolin, yeah, that's a faq...  you need to upgrade u-boot over to 1.4.4ss  if you used my 'setup_sdcard.sh                  ' with the "--boot beagle" option, just hold down the user button on power up... it'll reflash the nand 
+  	  	  with the latest x-load/u-boot..
+  20:20 < rcn-ee> --boot/--uboot (sorry)
+  20:20 < rcn-ee> and the first u-boot is 'x-load' where's my coffee. ;)
+  20:24 < brolin> rcn-ee: but with the user button hold down go until "android_usb gadget: high speed config #1: android"
+  20:24 < rcn-ee> brolin, on startup?  like power off, hold user button, power on?
+  20:26 < brolin> yes, kernel booting begins but stop there
+  20:27 < rcn-ee> brolin, very odd... c4 board right? can you pastebin your fatfs partition, and cat the 'user.scr' <- reflash                script..
+  20:28 < brolin> yes
+  20:54 < brolin> rcn-ee: http://pastebin.com/x2tD3idM
+  20:55 < brolin> http://pastebin.com/Bd2jMeLg
+  20:58 < rcn-ee> brolin, thanks for the pastebin..  is there any error's in u-boot when holding down the user button on 
+                startup? or does it ignore it completely?
+  21:07 < brolin> yes
+  21:10 < brolin> rcn-ee: and then?
+  21:11 < rcn-ee> does it print out the file system?
+  21:11 < rcn-ee> you should see the same thing shown with ls in linux... (we are seeing if the card is readable..)
+  21:13 < rcn-ee> ds2, i agree, but the 'no mmc card found' error message is odd..
+  21:14 < rcn-ee> yeap, and that's comming from nand flash....
+  21:14 < rcn-ee> brolin, since the auto reflash is failing, here's the steps it's actually trying to do: 
+                http://elinux.org/BeagleBoardUbuntu#Manual_Run
+  21:15 < ds2> rcn-ee: doesn't the u-boot in circulation still honor the NAND config? if so, a equiv of the cisco write erase 
+             should fix this
+  21:15 < brolin> rcn-ee: look at the filesystem http://pastebin.com/uBBLG5SE
+  21:16 < rcn-ee> ds2, yeah it does... which is tripping everything up..
+  21:16 < brolin> the command that works was mmc init
+  21:16 < ds2> rcn-ee: nand erase at the right sector; I don't have the config address range handy :(
+  21:17 < rcn-ee> brolin, it looks like everything is safely there, and read able.. do a "nand erase 260000 20000" to erase 
+                the nand sector, then "reset" with the user button pushed.. it should auto flash..
+  21:17 < rcn-ee> (that just erases the nand boot env variables)
+  21:17 < brolin> ok
+  21:22 < brolin> rcn-ee: works!
+  21:22 < brolin> thanks
+  21:22 < rcn-ee> your welcome brolin some of those nand enviroment variables can be a pain for upgrading..;)
+  21:22 < ds2> putting it simply, we are not doing things that standard way
+  21:23 < rcn-ee> and the standards changes from month to month.. ;)
+----------------
+> SCRIPT PARA GRABAR EN NAND EL BOOTLOADER Y MLO
+
+fatload mmc 0:1 0x80200000 MLO
+nandecc hw
+nand erase 0 80000
+nand write 0x80200000 0 20000
+nand write 0x80200000 20000 20000
+nand write 0x80200000 40000 20000
+nand write 0x80200000 60000 20000
+
+fatload mmc 0:1 0x80300000 u-boot.bin
+nandecc sw
+nand erase 80000 160000
+nand write 0x80300000 80000 160000
+nand erase 260000 20000
+echo "UPGRADE Complete, REMOVE SD CARD and DELETE this boot.scr"
+exit
+
+----------------
+> PD PARA UBUNTU
+  -http://puredata.info/docs/developer/BuildingPdForBeagleboard -- FUNCIONA!!!
+  - usb 1-2: clear tt 1 (0060) error -110
+    drivers/hid/usbhid/hid-core.c: can't reset device, ehci-omap.0-2.1/input0, status -71
+    drivers/hid/usbhid/hid-core.c: can't reset device, ehci-omap.0-2.1/input1, status -110
+
+> CHUCK PARA UBUNTU
+  - Instalado desde el repositorio, funciona muy bien! CREO QUE ES LA MEJOR OPCIÓN
+  - En Ubuntu también se instaló JWM windows manager con la misma configuración de xorg.conf de Angstrom
 ------------------------------------------ UNSORTED -----------------------------------------------------
 - O.S Build
   - RootStock >
