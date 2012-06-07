@@ -1,0 +1,192 @@
+ADEMAS DE TODO LO QUE SE HA PROBADO, beaglesynth en github, satellite ccrma
+
+OF en la Beagle
+
+- Del foro de OF http://forum.openframeworks.cc/index.php/topic,8908.0.html hay una imagen de DebianARM con OF funcionando https://gist.github.com/1813851
+
+- http://wiki.debian.org/ArmHardFloatPort
+
+- GNU Toolchain http://wiki.chumby.com/index.php/GNU_Toolchain
+
+- Fork de openframeworks que corre en armv7 https://github.com/damiannz/openFrameworks/tree/FEATURE_add_linuxarmv7l
+
+- XookyNabox -> http://elsoftwarehamuerto.org/articulos/691/puredata-beagleboard/
+
+DECISIONES PARA TOMAR!!!!
+- Floating Point Support
+  - softfp
+  - hardfp
+
+- Opciones del OS:
+  - Debian
+  - Angstrom
+  - Ubuntu
+
+- Openframeworks
+  - damian_linuxarmv7 | arturo_linuxarmv7 | openframeworks_develop branch
+    https://github.com/damiannz/openFrameworks/network
+    Clave para seguir el desarrollo de OF para la beagle hilo en la lista de OF http://dev.openframeworks.cc/pipermail/of-dev-openframeworks.cc/2012-March/004075.html y PR https://github.com/arturoc/openFrameworks/pull/1
+    Mirando en github los forks de of y comparándolos con el branch develop principal mediante la network parece que 
+  - portaudio, jack, rtaudio
+
+- Toolchain Cross | Native compilation
+  - codesourcery
+  - chumby
+  - angstrom
+  - ubuntu
+  - debian
+  - yocto -> http://downloads.yoctoproject.org/releases/yocto/yocto-1.1/toolchain/
+
+YA TENGO EL REPOSITORIO DE ARMV7L(HAY Q COMPILARLO,¿CON QUÉ TOOLCHAIN?,¿CON QUÉ FP? Y LA DISTRO DE DEBIAN PARA PROBAR
+- Descomprimí la distro y la miré su contenido con fdisk NombreDistro http://wiki.edseek.com/guide:mount_loopback
+- No fuí capaz de montarla
+
+CONEXIÓN INTERNET A TRAVÉS DE USB
+- https://wiki.archlinux.org/index.php/Internet_Share
+- 3. Share your computer's internet connection with the BB -> http://elsoftwarehamuerto.org/articulos/691/puredata-beagleboard/
+- http://wiki.openmoko.org/wiki/USB_Networking
+
+EN LA DISTRO CCRMA SATELLITE
+La línea para arrancar jackd -> /usr/bin/jackd -r -dalsa -dhw:0 -r44100 -p1024 -n4 -s -S -i2 -o2
+
+La línea para correr el patch de arduinoBeagle.pd -> pdextended -jack -stderr -nogui /home/ccrma/ACORDE/Files/arduinoBeagle.pd
+
+MailList CCRMA SATELLITE http://groups.google.com/group/satelliteccrma
+
+Hans Christhopher reware-eyebeam -> http://eyebeam.org/press/media/videos/reware-your-pda
+
+COMANDO PARA HACE COPIA DE UNA SD
+dd if=/dev/mmcblk0 of=imagen.img bs=1M
+
+COMPILAR OpenFrameworks CON ANGSTROM
+
+bajé la versión de of de damiannz
+bajé los scripts de desarrollo de angstrom
+¿Intentar con el toolchain de angstrom no mas? -> http://www.electronsonradio.com/2011/04/intro-to-basic-cross-compiling-for-the-beagleboard/
+
+OE local.conf
+Another couple of variables of interest are the BB_NUMBER_THREADS and the PARALLEL_MAKE variables. By default, these variables are commented out. However, if you have a multi-core CPU you might want to uncomment the lines and set the variable BB_NUMBER_THREADS equal to twice the number of your host's processor cores. Also, you could set the variable PARALLEL_MAKE equal to 1.5 times the number of processor cores. Setting these variables can significantly shorten your build time.
+
+Para mi equipo Lenovo ideapad Y470 BB_NUMBER_THREADS=8 y PARALLEL_MAKE=6
+
+bitbake -s, --show-versions   show current and preferred versions of all packages -> ver lista_paquetes_oe.txt
+
+bitbake -k core-image-core  23723,70s user 4705,36s system 137% cpu 5:43:44,82 total -> La imagen queda en /media/misc/BeagleSynth/angstrom_dist/setup-scripts/build/tmp-angstrom_v2012_05-eglibc/deploy/images/beagleboard
+
+Crear un sdk con OE -> http://elinux.org/images/9/94/Elc2011_raj_sdk.pdf
+Ubicación de SDK construído con bitbake -k meta-toolchain  8236,08s user 1549,54s system 172% cpu 1:34:17,96 total -> /media/misc/BeagleSynth/angstrom_dist/setup-scripts/build/tmp-angstrom_v2012_05-eglibc/deploy/sdk/angstrom-eglibc-x86_64-armv7a-v2012.05-toolchain.tar.bz2
+
+CrossCompiler -> http://www.openembedded.org/wiki/Cross_Compiler
+
+INSTALANDO DEBIAN PARA ARQUITECTURA ARM (http://elinux.org/BeagleBoardDebian#Debian_armhf_port)
+$git clone git://github.com/RobertCNelson/netinstall.git
+$cd netinstall
+
+$sudo ./mk_mmc.sh --mmc /dev/mmcblk0 --uboot beagle_cx --distro squeeze --serial-mode
+
+Missing dependencies: u-boot-tools wget dosfstools parted dpkg
+
+Parece que esto funciona a través de red desde la beagle, pero ni siguiera me bootea.
+Se intenta cambiar las variables de entorno según el archivo /media/misc/BeagleSynth/DebianARM/setupUboot/uboot_env_debian.txt
+
+######### Actualizar MLO y u-boot ########
+Se intenta -> http://elinux.org/BeagleBoardUbuntu#Upgrade_X-loader_and_U-boot
+Borro viejos Xloader y uboot:
+
+-----
+OMAP3 beagleboard.org # nand erase 260000 20000
+
+NAND erase: device 0 offset 0x260000, size 0x20000
+Erasing at 0x260000 -- 100% complete.
+OK
+-----
+
+git clone git://github.com/RobertCNelson/flash-omap.git
+cd flash-omap
+
+sudo ./mk_mmc.sh --mmc /dev/mmcblk0 --uboot beagle_cx
+
+Reiniciar la beagle con el user button presionado, el automáticamente borra y flashea un nuevo XLoader y uboot
+
+Se destinó una tarjeta SD - con la etiqueta MLO- para tal fin
+######### Actualizar MLO y u-boot ########
+
+Se usa el script netInstall para reformatear la tarjeta SD con los archivos para tal fin, sale mensaje "booting the kernel .." pero se congela.
+
+Parece que es el la variable de entorno de uboot "console" 
+
+Para que la instalación sea serial se hace agregando --serial-mode al script mk_mmc.sh
+
+- Configuración de la conexión a internet -
+Se intenta configurar red entre la beagle y el pc a través de usb:
+1. Entregándole ip a través de dhcp con dnsmasq. Funcionó para angstrom demo image:
+   - en la beagle:
+     # modprobe g_ether
+     # udhcpc -i usb0 # Pero antes hay que configurar el servidor dhcpd en el host
+   - en el host:
+     después de cargar el módulo g_ether en la beagle, conectar y desconectar el cable usb
+     verificar si la interfaz usb0 está disponible y luego configurarla:
+     	       permitir forward: echo 1 > /proc/sys/net/ipv4/ip_forward
+               permitir NAT para compartir internet de wlan0: iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+	       configurar la interfaz usb0: ifconfig eth0 10.0.0.1 netmask 255.255.255.0 up
+	       reiniciar servidor dhcpd: rc.d restart dnsmasq
+   - en la beagle:
+     # udhcpc -i usb0 # Pero antes hay que configurar el servidor dhcpd en el host
+
+2. Haciendo el bridge:
+   - El módulo está disponible para debiannetinstall > dmesg
+   - configurar ip en la beagle
+   ip addr add 10.0.1.1/24 dev usb0
+ sudo sh formatear_tarjeta.sh /dev/mmcblk0   ip addr show
+   ip link set usb0 up # Para levantar el enlace de la interfaz usb0
+
+
+https://wiki.archlinux.org/index.php/Android_Tethering
+http://www.balloonboard.org/balloonwiki/USBNetworking
+
+
+
+Mayo 31
+Se formatean las memorias SD con el script en la página del software ha muerto -> http://elsoftwarehamuerto.org/wp-content/uploads/2011/11/formatear_tarjeta.sh
+    $ sudo sh formatear_tarjeta.sh /dev/mmcblk0
+Se descomprime la imagen de Narcissus en la partición Angstrom de ls SD
+Se copia el contenido de ./boot dentro de la partición Angstrom/, se copia primero el archivo MLO
+No logro logearme por la consola serial
+Manual OE -> http://www.crashcourse.ca/wiki/index.php/OE-Core
+bitbake -b openembedded/packages/flex/flex-native_2.5.31.bb -c clean
+
+#################################################################################################
+DESCARGA DE DEMO IMAGE BEAGLEBOARD - http://downloads.angstrom-distribution.org/demo/beagleboard/
+#################################################################################################
+- Configuración de pantalla MIMO:
+  requiere instalar el driver udlfb y displaylink
+    # opkg install kernel-module-udlfb xf86-video-displaylink
+  Después de instalarlos hay que modificar el archivo /etc/X11/xorg.conf, la configuración es la siguiente
+
+    Section "Device"
+        Identifier "dl0"
+        driver "displaylink"
+        Option "fbdev" "/dev/fb0"
+    EndSection
+
+    Section "Monitor"
+        Identifier "monitor0"
+    EndSection
+
+    Section "Screen"
+        Identifier "screen0"
+        Device "dl0"
+        Monitor "monitor0"
+    EndSection
+#################################################################################################
+
+###################### LO QUE HAY, JUNIO 7 ######################################################
+- Bootea una imagen de angstrom, parece que se cuelga a veces con los periféricos conectados (usb-gadget, mimo)
+- Funciona el sonido, FALTA probar con jack
+- Funciona el internet a través de usb, FALTA ¿como hacerlo automático?
+- Se instaló la pantalla FALTA probar si con el hub si funciona bien y mirar gdm
+- Funciona la conexión a través de ssh -X para ejecutar aplicaciones gráficas
+- FALTA poner a funcionar un ejemplo Xooky
+- FALTA poner a funcionar un ejemplo de QT
+- FALTA hacer un programa que reciba los datos seriales del arduino
+- FALTA intentar OF o mirar de ahí que nos sirve

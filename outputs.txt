@@ -1,0 +1,51 @@
+########################### DEBIAN BOOT ##################################
+
+[    2.707641] usbcore: registered new interface driver cdc_ether
+[    2.713897] usbcore: registered new interface driver rndis_host
+[    2.720123] cdc_ncm: 04-Aug-2011
+[    2.723632] usbcore: registered new interface driver cdc_ncm
+[    2.730102] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    4.751708] ehci-omap ehci-omap.0: OMAP-EHCI Host Controller
+[    4.758148] ehci-omap ehci-omap.0: new USB bus registered, assigned bus number 1
+[    4.766113] ehci-omap ehci-omap.0: irq 77, io mem 0x48064800
+[    4.783050] ehci-omap ehci-omap.0: USB 2.0 started, EHCI 1.00
+[    4.789215] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+[    4.796386] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    4.803985] usb usb1: Product: OMAP-EHCI Host Controller
+[    4.809570] usb usb1: Manufacturer: Linux 3.2.19-x13 ehci_hcd
+[    4.815612] usb usb1: SerialNumber: ehci-omap.0
+[    4.821136] hub 1-0:1.0: USB hub found
+[    4.825164] hub 1-0:1.0: 3 ports detected
+[    4.861206] Initializing USB Mass Storage driver...
+[    4.866485] usbcore: registered new interface driver usb-storage
+[    4.872802] USB Mass Storage support registered.
+[    4.877807] usbcore: registered new interface driver libusual
+[    4.884063] udc: OMAP UDC driver, version: 4 October 2004 (iso) (dma)
+[    4.891113]  gadget: using random self ethernet address
+[    4.896636]  gadget: using random host ethernet address
+[    4.903442] usb0: MAC f6:aa:b3:5b:9b:f7
+[    4.907470] usb0: HOST MAC d2:9c:c0:92:22:bc
+[    4.912048]  gadget: Ethernet Gadget, version: Memorial Day 2008
+[    4.918395]  gadget: g_ether ready
+[    4.921966] musb-hdrc musb-hdrc: MUSB HDRC host driver
+[    4.927825] musb-hdrc musb-hdrc: new USB bus registered, assigned bus number 2
+[    4.935546] usb usb2: New USB device found, idVendor=1d6b, idProduct=0002
+[    4.942718] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    4.950317] usb usb2: Product: MUSB HDRC host driver
+[    4.955535] usb usb2: Manufacturer: Linux 3.2.19-x13 musb-hcd
+[    4.961547] usb usb2: SerialNumber: musb-hdrc
+[    4.966949] hub 2-0:1.0: USB hub found
+[    4.970947] hub 2-0:1.0: 1 port detected
+
+############################### DEBIAN BOOT ##################################
+
+############################### AL CONECTAR USB AL PC ###############################
+
+[ 3865.181376] usb 2-2: new high-speed USB device number 12 using xhci_hcd
+[ 3865.198623] usb 2-2: ep 0x81 - rounding interval to 32768 microframes, ep desc says 0 microframes
+[ 3865.198629] usb 2-2: ep 0x1 - rounding interval to 32768 microframes, ep desc says 0 microframes
+[ 3865.200063] usb 2-2: ep 0x81 - rounding interval to 32768 microframes, ep desc says 0 microframes
+[ 3865.200070] usb 2-2: ep 0x1 - rounding interval to 32768 microframes, ep desc says 0 microframes
+[ 3865.201476] cdc_subset 2-2:1.0: usb0: register 'cdc_subset' at usb-0000:09:00.0-2, Linux Device, 12:51:fc:26:04:1a
+
+############################### AL CONECTAR USB AL PC ###############################
